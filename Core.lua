@@ -17,9 +17,19 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame")	;
 RepSwap.Author = "Fluxflashor";
 RepSwap.Version = GetAddOnMetadata(AddonName, "Version");
 RepSwap.TestMode = false;
+RepSwap.FactionTable = { };
 
-function RepSwap:CreateFactionIndex()
-	-- This creates an index of all factions the player has encountered.
+function RepSwap:CreateFactionTable()
+	-- This creates an table of all factions the player has encountered.
+end
+
+function RepSwap:GetFactionIndex(factionName)
+	-- Returns the factionIndex of the faction
+end
+
+function RepSwap:UpdateWatchedFaction(factionIndex, factionTable)
+	-- Updates our tracked reputation on the blizzard reputation bar
+	SetWatchedFactionIndex(factionIndex);
 end
 
 function RepSwap:RegisterEvents()
@@ -28,19 +38,19 @@ end
 
 function RepSwap:Initialize()
 	RepSwap:RegisterEvents();
-	RepSwap.FactionIndex = RepSwap:CreateFactionIndex();
+	RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	EventFrame:SetScript("OnEvent", function (self, event, ...) RepSwap:EventHandler(self, event, ...); end );
 end
 
 function Copycat:EventHandler(self, event, ...)
 	if (event == "COMBAT_TEXT_UPDATE") then
-		local messageType, faction --[[, reputation]] = ...; 
+		local messageType, factionName --[[, reputation]] = ...; 
 		if (messageType == "FACTION") then
 			-- This is the correct event so we will now check to see if
 			-- the reputation found is inside our faction index. If it is
 			-- then we can tell it to change the watched faction
 			
-			factionIndex = RepSwap:GetFactionIndex(faction);
+			factionIndex = RepSwap:GetFactionIndex(factionName, RepSwap.FactionTable);
 			RepSwap:UpdateWatchedFaction(factionIndex);
 		end
 	end
