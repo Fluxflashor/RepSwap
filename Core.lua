@@ -1,8 +1,8 @@
 --[[ 
-	@Package       CopyCat
-	@Description   Automated Trolling of Trade Chat
+	@Package       RepSwap
+	@Description   Changes your watched reputation based on the faction you last gained rep with
 	@Author        Robert "Fluxflashor" Veitch <Robert@Fluxflashor.net>
-	@Repo          http://github.com/Fluxflashor/CopyCat
+	@Repo          http://github.com/Fluxflashor/RepSwap
 	@File          Core.lua 
 	]]
 
