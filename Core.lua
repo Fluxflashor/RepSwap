@@ -7,7 +7,7 @@
 	]]
 
 local AddonName, RepSwap = ...;
-local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame")	;
+local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
 -- Editing below this line may cause the AddOn to stop behaving properly.
 -- Hell, you may have fucked something up in the config so if you have any
@@ -21,13 +21,27 @@ RepSwap.FactionTable = { };
 
 function RepSwap:CreateFactionTable()
 	-- This creates an table of all factions the player has encountered.
+	local factionTable = { };
+	local numFactions = GetNumFactions();
+	
+	if (numFactions == 0) then
+		return factionTable;
+	end
+	
+	for (i=1, numFactions) do
+		local factionName, _, _, _, _, _, _, _, _, _, _, _, _, _ = GetFactionInfoByID(i);
+		factionTable[factionName] = i;
+	end
+	
+	return factionTable;
 end
 
-function RepSwap:GetFactionIndex(factionName)
+function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
 	-- Returns the factionIndex of the faction
+	return factionTable[factionName];
 end
 
-function RepSwap:UpdateWatchedFaction(factionIndex, factionTable)
+function RepSwap:UpdateWatchedFaction(factionIndex)
 	-- Updates our tracked reputation on the blizzard reputation bar
 	SetWatchedFactionIndex(factionIndex);
 end
@@ -50,7 +64,7 @@ function RepSwap:EventHandler(self, event, ...)
 			-- the reputation found is inside our faction index. If it is
 			-- then we can tell it to change the watched faction
 			
-			factionIndex = RepSwap:GetFactionIndex(factionName, RepSwap.FactionTable);
+			factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
 			RepSwap:UpdateWatchedFaction(factionIndex);
 		end
 	end
