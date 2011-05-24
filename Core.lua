@@ -42,7 +42,7 @@ function RepSwap:Initialize()
 	EventFrame:SetScript("OnEvent", function (self, event, ...) RepSwap:EventHandler(self, event, ...); end );
 end
 
-function Copycat:EventHandler(self, event, ...)
+function RepSwap:EventHandler(self, event, ...)
 	if (event == "COMBAT_TEXT_UPDATE") then
 		local messageType, factionName --[[, reputation]] = ...; 
 		if (messageType == "FACTION") then
