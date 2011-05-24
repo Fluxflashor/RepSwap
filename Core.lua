@@ -19,6 +19,10 @@ RepSwap.Version = GetAddOnMetadata(AddonName, "Version");
 RepSwap.TestMode = false;
 RepSwap.FactionTable = { };
 
+function RepSwap:MessageUser(message)
+	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
+end
+
 function RepSwap:CreateFactionTable()
 	-- This creates an table of all factions the player has encountered.
 	local factionTable = { };
@@ -28,8 +32,8 @@ function RepSwap:CreateFactionTable()
 		return factionTable;
 	end
 	
-	for (i=1, numFactions) do
-		local factionName, _, _, _, _, _, _, _, _, _, _, _, _, _ = GetFactionInfoByID(i);
+	for i=1, numFactions do
+		local factionName = select(1,GetFactionInfo(i))
 		factionTable[factionName] = i;
 	end
 	
@@ -48,18 +52,21 @@ end
 
 function RepSwap:RegisterEvents()
 	EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
+	EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 function RepSwap:Initialize()
+	RepSwap:MessageUser(string.format("AddOn Loaded. Version: %s. Author: %s.", RepSwap.Version, RepSwap.Author));
 	RepSwap:RegisterEvents();
-	RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	EventFrame:SetScript("OnEvent", function (self, event, ...) RepSwap:EventHandler(self, event, ...); end );
 end
 
 function RepSwap:EventHandler(self, event, ...)
 	if (event == "COMBAT_TEXT_UPDATE") then
+		--SendChatMessage("COMBAT_TEXT_UPDATE", "OFFICER");
 		local messageType, factionName --[[, reputation]] = ...; 
 		if (messageType == "FACTION") then
+			--SendChatMessage(string.format("%s passed for %s",messageType,event), "OFFICER");
 			-- This is the correct event so we will now check to see if
 			-- the reputation found is inside our faction index. If it is
 			-- then we can tell it to change the watched faction
@@ -67,6 +74,9 @@ function RepSwap:EventHandler(self, event, ...)
 			factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
 			RepSwap:UpdateWatchedFaction(factionIndex);
 		end
+	elseif (event == "PLAYER_ENTERING_WORLD") then
+		--SendChatMessage("I have entered the World","OFFICER");
+		RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	end
 end
 RepSwap:Initialize();
