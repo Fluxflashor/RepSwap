@@ -1,0 +1,7 @@
+## Interface: 40100
+## Title: RepSwap
+## Notes: Changes your watched reputation based on the faction you last gained rep with
+## Author: Fluxflashor
+## Version: @project-version@
+
+Core.lua
