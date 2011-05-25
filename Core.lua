@@ -62,6 +62,7 @@ function RepSwap:RegisterEvents()
 	EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
 	EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 	EventFrame:RegisterEvent("PLAYER_GUILD_UPDATE");
+	EventFrame:RegisterEvent("PLAYER_LOGOUT");
 end
 
 function RepSwap:Initialize()
@@ -121,6 +122,8 @@ function RepSwap:EventHandler(self, event, ...)
 			end
 			RepSwap.PlayerGuildName = "";
 		end
+	elseif (event == "PLAYER_LOGOUT") then
+		-- Save our saved variables!
 	end
 end
 RepSwap:Initialize();
