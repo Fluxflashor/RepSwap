@@ -16,9 +16,9 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
 RepSwap.Author = "Fluxflashor";
 RepSwap.Version = GetAddOnMetadata(AddonName, "Version");
-RepSwap.TestMode = false;
+RepSwap.TestMode = true;
 RepSwap.FactionTable = { };
-RepSwap.PlayerGuildName = ;
+RepSwap.PlayerGuildName = "";
 
 
 function RepSwap:MessageUser(message)
@@ -98,7 +98,7 @@ function RepSwap:EventHandler(self, event, ...)
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		-- Check to see if the player is in a guild so we can setup different rules for it
 		RepSwap.IsInGuild = IsInGuild();
-		if (RepSwap.IsInGuild)
+		if (RepSwap.IsInGuild) then
 			RepSwap.PlayerGuildName = GetGuildInfo("player");
 			if (RepSwap.TestMode) then
 				RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
@@ -110,7 +110,7 @@ function RepSwap:EventHandler(self, event, ...)
 		-- see if the player is in a guild currently and if they are then
 		-- we can make sure we aren't checking for old guild names :p
 		RepSwap.IsInGuild = IsInGuild();
-		if (RepSwap.IsInGuild)
+		if (RepSwap.IsInGuild) then
 			RepSwap.PlayerGuildName = GetGuildInfo("player");
 			if (RepSwap.TestMode) then
 				RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
