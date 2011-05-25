@@ -18,6 +18,8 @@ RepSwap.Author = "Fluxflashor";
 RepSwap.Version = GetAddOnMetadata(AddonName, "Version");
 RepSwap.TestMode = false;
 RepSwap.FactionTable = { };
+RepSwap.PlayerGuildName = ;
+
 
 function RepSwap:MessageUser(message)
 	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
@@ -93,10 +95,13 @@ function RepSwap:EventHandler(self, event, ...)
 			RepSwap:UpdateWatchedFaction(factionIndex);
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
-		--SendChatMessage("I have entered the World","OFFICER");
-		RepSwap.PlayerGuildName = GetGuildInfo("player");
-		if (RepSwap.TestMode) then
-			RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
+		-- Check to see if the player is in a guild so we can setup different rules for it
+		RepSwap.IsInGuild = IsInGuild();
+		if (RepSwap.IsInGuild)
+			RepSwap.PlayerGuildName = GetGuildInfo("player");
+			if (RepSwap.TestMode) then
+				RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
+			end
 		end
 		RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	end
