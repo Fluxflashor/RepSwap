@@ -33,8 +33,9 @@ function RepSwap:CreateFactionTable()
 	end
 	
 	for i=1, numFactions do
-		local factionName = select(1,GetFactionInfo(i))
+		local factionName = select(1,GetFactionInfo(i));
 		factionTable[factionName] = i;
+		-- RepSwap:MessageUser(string.format("FactionName: %s. FactionID: %s.", factionName, i));
 	end
 	
 	return factionTable;
@@ -42,6 +43,7 @@ end
 
 function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
 	-- Returns the factionIndex of the faction
+	-- RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable));
 	return factionTable[factionName];
 end
 
@@ -76,6 +78,7 @@ function RepSwap:EventHandler(self, event, ...)
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		--SendChatMessage("I have entered the World","OFFICER");
+		RepSwap.PlayerGuildName = GetGuildInfo("player");
 		RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	end
 end

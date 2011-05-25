@@ -11,11 +11,11 @@ All Stable Releases of RepSwap are automagically packaged on [Curse](http://curs
 Development
 -----------
 
-If you are interested in contributing to the addon or just want to check out the code feel free to check out the RepSwap Source Code on Github.
+If you are interested in contributing to the addon or just want to check out the code feel free to check out the [RepSwap Source Code](https://github.com/Fluxflashor/RepSwap) on Github.
 
 Issues and Feature Requests
 ---------------------------
 
-I ask that all problems with the addon are reported to the RepSwap Issue Tracker on Github. Checking the Curse project page can be a bit of a pain in the ass sometimes and it helps me if I can keep everything organized in one place.
+I ask that all problems with the addon are reported to the [RepSwap Issue Tracker](https://github.com/Fluxflashor/RepSwap/issues) on Github. Checking the Curse project page can be a bit of a pain in the ass sometimes and it helps me if I can keep everything organized in one place.
 
 Thanks for checking it out and I hope someone else can make use of this addon!
