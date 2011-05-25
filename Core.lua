@@ -61,6 +61,7 @@ end
 function RepSwap:RegisterEvents()
 	EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
 	EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
+	EventFrame:RegisterEvent("PLAYER_GUILD_UPDATE");
 end
 
 function RepSwap:Initialize()
@@ -104,6 +105,22 @@ function RepSwap:EventHandler(self, event, ...)
 			end
 		end
 		RepSwap.FactionTable = RepSwap:CreateFactionTable();
+	elseif (event == "PLAYER_GUILD_UPDATE") then
+		-- This fires when a player leaves or joins a new guild. Check to
+		-- see if the player is in a guild currently and if they are then
+		-- we can make sure we aren't checking for old guild names :p
+		RepSwap.IsInGuild = IsInGuild();
+		if (RepSwap.IsInGuild)
+			RepSwap.PlayerGuildName = GetGuildInfo("player");
+			if (RepSwap.TestMode) then
+				RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
+			end
+		else
+			if (RepSwap.TestMode) then
+				RepSwap:MessageUser(string.format("Resetting Guild Name: %s", RepSwap.PlayerGuildName));
+			end
+			RepSwap.PlayerGuildName = "";
+		end
 	end
 end
 RepSwap:Initialize();
