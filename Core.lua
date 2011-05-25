@@ -16,7 +16,7 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
 RepSwap.Author = "Fluxflashor";
 RepSwap.Version = GetAddOnMetadata(AddonName, "Version");
-RepSwap.TestMode = true;
+RepSwap.TestMode = false;
 RepSwap.FactionTable = { };
 RepSwap.PlayerGuildName = "";
 
