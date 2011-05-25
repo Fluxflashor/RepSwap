@@ -14,11 +14,17 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 -- doubts please revert your changes. This addon was tested by Fluxflashor
 -- before being uploaded to Curse.com so it's your fault if it breaks!
 
-RepSwap.Author = "Fluxflashor";
+RepSwap.AddonName = AddonName;
+RepSwap.Author = GetAddOnMetadata(AddonName, "Author");
 RepSwap.Version = GetAddOnMetadata(AddonName, "Version");
 RepSwap.TestMode = false;
 RepSwap.FactionTable = { };
 RepSwap.PlayerGuildName = "";
+
+RepSwapDB = {
+	SuppressWarnings = false,
+	AddOnDisabled = false
+}
 
 
 function RepSwap:MessageUser(message)
@@ -63,12 +69,43 @@ function RepSwap:RegisterEvents()
 	EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 	EventFrame:RegisterEvent("PLAYER_GUILD_UPDATE");
 	EventFrame:RegisterEvent("PLAYER_LOGOUT");
+	EventFrame:RegisterEvent("ADDON_LOADED");
 end
 
+function RepSwap:Disable()
+	RepSwapDB.AddOnDisabled = true;
+	EventFrame:UnregisterEvent("COMBAT_TEXT_UPDATE");
+end
+
+function RepSwap:Enable()
+	RepSwapDB.AddOnDisabled = false;
+	EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
+end
+
+SLASH_REPSWAP1 = "/rs";
+SlashCmdList["REPSWAP"] = function (msg) RepSwap:SlashHandler(msg) end;
+
 function RepSwap:Initialize()
-	RepSwap:MessageUser(string.format("AddOn Loaded. Version: %s. Author: %s.", RepSwap.Version, RepSwap.Author));
 	RepSwap:RegisterEvents();
 	EventFrame:SetScript("OnEvent", function (self, event, ...) RepSwap:EventHandler(self, event, ...); end );
+end
+
+function RepSwap:SlashHandler(msg)
+	local command = "";
+	
+	if (msg) then
+		command = string.lower(msg);
+	end
+	
+	if (command == "" or command == "help" or command == "usage") then
+		RepSwap:MessageUser("Need help? lol");
+	elseif (command == "off" or command == "disable") then
+		-- Disable the addon
+		RepSwap:Disable();
+	elseif (command == "on" or command == "enable") then
+		-- Enable the addon
+		RepSwap:Enable();
+	end
 end
 
 function RepSwap:EventHandler(self, event, ...)
@@ -124,6 +161,26 @@ function RepSwap:EventHandler(self, event, ...)
 		end
 	elseif (event == "PLAYER_LOGOUT") then
 		-- Save our saved variables!
+	elseif (event == "ADDON_LOADED") then
+		local LoadedAddonName = ...;
+		if (RepSwap.TestMode) then
+			RepSwap:MessageUser(string.format("LoadedAddonName is %s", LoadedAddonName));
+		end
+		if (LoadedAddonName == AddonName) then
+			if (RepSwap.Version == "@project-version@") then
+				RepSwap.Version = "Development";
+			end
+			RepSwap:MessageUser(string.format("Loaded Version is %s. Author is %s.", RepSwap.Version, RepSwap.Author));
+			if (RepSwap.TestMode) then
+				RepSwap:MessageUser(string.format("%s is %s.", LoadedAddonName, AddonName));
+			end
+			if (RepSwapDB.AddOnDisabled) then
+				if (RepSwap.TestMode) then
+					RepSwap:MessageUser("RepSwap is disabled. Unregistering Events.");
+				end
+				RepSwap:Disable();
+			end
+		end
 	end
 end
 RepSwap:Initialize();

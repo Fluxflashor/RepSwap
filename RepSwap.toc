@@ -3,6 +3,6 @@
 ## Notes: Changes your watched reputation based on the faction you last gained rep with
 ## Author: Fluxflashor
 ## Version: @project-version@
-## SavedVariablesPerCharacter: RepSwapDisable, RepSwapSupressWarnings
+## SavedVariablesPerCharacter: RepSwapDB
 
 Core.lua
