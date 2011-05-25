@@ -35,7 +35,9 @@ function RepSwap:CreateFactionTable()
 	for i=1, numFactions do
 		local factionName = select(1,GetFactionInfo(i));
 		factionTable[factionName] = i;
-		-- RepSwap:MessageUser(string.format("FactionName: %s. FactionID: %s.", factionName, i));
+		if (RepSwap.TestMode) then
+			RepSwap:MessageUser(string.format("FactionName: %s. FactionID: %s.", factionName, i));
+		end
 	end
 	
 	return factionTable;
@@ -43,7 +45,9 @@ end
 
 function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
 	-- Returns the factionIndex of the faction
-	-- RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable));
+	if (RepSwap.TestMode) then
+		RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable[factionName]));
+	end
 	return factionTable[factionName];
 end
 
@@ -68,17 +72,32 @@ function RepSwap:EventHandler(self, event, ...)
 		--SendChatMessage("COMBAT_TEXT_UPDATE", "OFFICER");
 		local messageType, factionName --[[, reputation]] = ...; 
 		if (messageType == "FACTION") then
-			--SendChatMessage(string.format("%s passed for %s",messageType,event), "OFFICER");
+			if (RepSwap.TestMode) then
+				SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
+			end
 			-- This is the correct event so we will now check to see if
 			-- the reputation found is inside our faction index. If it is
 			-- then we can tell it to change the watched faction
 			
-			factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
+			if (factionName == "Guild") then
+				if (RepSwap.TestMode) then
+					RepSwap:MessageUser("FactionName provided was 'Guild'.");
+				end
+				factionIndex = RepSwap:GetFactionIndexFromTable(RepSwap.PlayerGuildName, RepSwap.FactionTable);
+			else
+				if (RepSwap.TestMode) then
+					RepSwap:MessageUser(string.format("FactionName provided was %s.", factionName));
+				end
+				factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
+			end
 			RepSwap:UpdateWatchedFaction(factionIndex);
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		--SendChatMessage("I have entered the World","OFFICER");
 		RepSwap.PlayerGuildName = GetGuildInfo("player");
+		if (RepSwap.TestMode) then
+			RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
+		end
 		RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	end
 end
