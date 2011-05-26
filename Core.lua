@@ -121,10 +121,10 @@ function RepSwap:SlashHandler(msg)
 		RepSwap:Enable();
 	elseif (command == "warnon" or command == "won") then
 		-- Enables Warnings
-		RepSwapDB.SupressWarnings = false;
+		RepSwapDB.SuppressWarnings = false;
 	elseif (command == "warnoff" or command == "woff") then
 		-- Diables Warnings
-		RepSwapDB.SupressWarnings = true;
+		RepSwapDB.SuppressWarnings = true;
 	end
 end
 
