@@ -102,7 +102,12 @@ function RepSwap:SlashHandler(msg)
 	end
 	
 	if (command == "" or command == "help" or command == "usage") then
-		RepSwap:MessageUser("Need help? lol");
+		RepSwap:MessageUser("Slash Command Usage");
+		RepSwap:MessageUser("  help    -  Displays this.");
+		RepSwap:MessageUser("  disable -  Disables RepSwap.");
+		RepSwap:MessageUser("  enable  -  Enables RepSwap.");
+		RepSwap:MessageUser("  warnoff -  Disables Warnings.");
+		RepSwap:MessageUser("  warnon  -  Enables Warnings.");
 	elseif (command == "off" or command == "disable") then
 		-- Disable the addon
 		RepSwap:Disable();
