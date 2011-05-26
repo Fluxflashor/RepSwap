@@ -27,8 +27,12 @@ RepSwapDB = {
 }
 
 
-function RepSwap:MessageUser(message)
-	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
+function RepSwap:MessageUser(message, warning or false)
+	if (not warning) then
+		DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
+	else
+		DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: |cffc41f3b%s|r", message));
+	end
 end
 
 function RepSwap:CreateFactionTable()
@@ -176,7 +180,10 @@ function RepSwap:EventHandler(self, event, ...)
 			end
 			if (RepSwapDB.AddOnDisabled) then
 				if (RepSwap.TestMode) then
-					RepSwap:MessageUser("RepSwap is disabled. Unregistering Events.");
+					RepSwap:MessageUser("Unregistering Events.");
+				end
+				if (not RepSwapDB.SuppressWarnings) then
+					RepSwap:MessageUser("RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.", true);
 				end
 				RepSwap:Disable();
 			end
