@@ -81,14 +81,16 @@ function RepSwap:RegisterEvents()
 	EventFrame:RegisterEvent("ADDON_LOADED");
 end
 
-function RepSwap:Disable()
-	RepSwapDB.AddOnDisabled = true;
-	EventFrame:UnregisterEvent("COMBAT_TEXT_UPDATE");
-end
-
-function RepSwap:Enable()
-	RepSwapDB.AddOnDisabled = false;
-	EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
+function RepSwap:Enable(enable)
+	if (enable) then
+		RepSwapDB.AddOnDisabled = false;
+		EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
+		RepSwap:MessageUser("Enabled Automagic Reputation Swapping =)");
+	else
+		RepSwapDB.AddOnDisabled = true;
+		EventFrame:UnregisterEvent("COMBAT_TEXT_UPDATE");
+		RepSwap:MessageUser("Disabled Automagic Reputation Swapping =(");
+	end
 end
 
 SLASH_REPSWAP1 = "/rs";
@@ -115,10 +117,10 @@ function RepSwap:SlashHandler(msg)
 		RepSwap:MessageUser("  warnon  -  Enables Warnings.");
 	elseif (command == "off" or command == "disable") then
 		-- Disable the addon
-		RepSwap:Disable();
+		RepSwap:Enable(false);
 	elseif (command == "on" or command == "enable") then
 		-- Enable the addon
-		RepSwap:Enable();
+		RepSwap:Enable(true);
 	elseif (command == "warnon" or command == "won") then
 		-- Enables Warnings
 		RepSwapDB.SuppressWarnings = false;
