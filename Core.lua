@@ -109,6 +109,12 @@ function RepSwap:SlashHandler(msg)
 	elseif (command == "on" or command == "enable") then
 		-- Enable the addon
 		RepSwap:Enable();
+	elseif (command == "warnon" or command == "won") then
+		-- Enables Warnings
+		RepSwapDB.SupressWarnings = false;
+	elseif (command == "warnoff" or command == "woff") then
+		-- Diables Warnings
+		RepSwapDB.SupressWarnings = true;
 	end
 end
 
