@@ -110,11 +110,11 @@ function RepSwap:SlashHandler(msg)
 	
 	if (command == "" or command == "help" or command == "usage") then
 		RepSwap:MessageUser("Slash Command Usage");
-		RepSwap:MessageUser("  help    -  Displays 'Slash Command Usage'.");
-		RepSwap:MessageUser("  disable -  Disables RepSwap.");
-		RepSwap:MessageUser("  enable  -  Enables RepSwap.");
-		RepSwap:MessageUser("  warnoff -  Disables Warnings.");
-		RepSwap:MessageUser("  warnon  -  Enables Warnings.");
+		RepSwap:MessageUser("  help    - Displays 'Slash Command Usage'.");
+		RepSwap:MessageUser("  disable - Disables RepSwap.");
+		RepSwap:MessageUser("  enable  - Enables RepSwap.");
+		RepSwap:MessageUser("  warnoff - Disables Warnings.");
+		RepSwap:MessageUser("  warnon  - Enables Warnings.");
 	elseif (command == "off" or command == "disable") then
 		-- Disable the addon
 		RepSwap:Enable(false);
@@ -124,9 +124,11 @@ function RepSwap:SlashHandler(msg)
 	elseif (command == "warnon" or command == "won") then
 		-- Enables Warnings
 		RepSwapDB.SuppressWarnings = false;
+		RepSwap:MessageUser("Warnings are now being hidden.");
 	elseif (command == "warnoff" or command == "woff") then
 		-- Diables Warnings
 		RepSwapDB.SuppressWarnings = true;
+		RepSwap:MessageUser("Warnings are now being shown.");
 	end
 end
 
