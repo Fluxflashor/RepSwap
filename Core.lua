@@ -190,6 +190,9 @@ function RepSwap:EventHandler(self, event, ...)
 			if (RepSwap.Version == "@project-version@") then
 				RepSwap.Version = "Development";
 			end
+			if (RepSwap.Author == "@project-author@") then
+				RepSwap.Author = "Fluxflashor (Local)";
+			end
 			RepSwap:MessageUser(string.format("Loaded Version is %s. Author is %s.", RepSwap.Version, RepSwap.Author));
 			if (RepSwap.TestMode) then
 				RepSwap:MessageUser(string.format("%s is %s.", LoadedAddonName, AddonName));
