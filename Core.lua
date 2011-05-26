@@ -208,7 +208,7 @@ function RepSwap:EventHandler(self, event, ...)
 				if (not RepSwapDB.SuppressWarnings) then
 					RepSwap:WarnUser("RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.");
 				end
-				RepSwap:Enabled(false);
+				RepSwap:Enable(false);
 			end
 		end
 	end
