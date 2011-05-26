@@ -27,12 +27,12 @@ RepSwapDB = {
 }
 
 
-function RepSwap:MessageUser(message, warning or false)
-	if (not warning) then
-		DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
-	else
-		DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: |cffc41f3b%s|r", message));
-	end
+function RepSwap:MessageUser(message)
+	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
+end
+
+function RepSwap:WarnUser(message)
+	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: |cffc41f3b%s|r", message));
 end
 
 function RepSwap:CreateFactionTable()
@@ -103,7 +103,7 @@ function RepSwap:SlashHandler(msg)
 	
 	if (command == "" or command == "help" or command == "usage") then
 		RepSwap:MessageUser("Slash Command Usage");
-		RepSwap:MessageUser("  help    -  Displays this.");
+		RepSwap:MessageUser("  help    -  Displays 'Slash Command Usage'.");
 		RepSwap:MessageUser("  disable -  Disables RepSwap.");
 		RepSwap:MessageUser("  enable  -  Enables RepSwap.");
 		RepSwap:MessageUser("  warnoff -  Disables Warnings.");
@@ -194,7 +194,7 @@ function RepSwap:EventHandler(self, event, ...)
 					RepSwap:MessageUser("Unregistering Events.");
 				end
 				if (not RepSwapDB.SuppressWarnings) then
-					RepSwap:MessageUser("RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.", true);
+					RepSwap:WarnUser("RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.");
 				end
 				RepSwap:Disable();
 			end
