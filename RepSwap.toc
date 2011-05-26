@@ -1,7 +1,7 @@
 ## Interface: 40100
 ## Title: RepSwap
 ## Notes: Changes your watched reputation based on the faction you last gained rep with
-## Author: Fluxflashor
+## Author: @project-author@
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: RepSwapDB
 
