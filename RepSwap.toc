@@ -6,3 +6,4 @@
 ## SavedVariablesPerCharacter: RepSwapDB
 
 Core.lua
+Localization/enUS.lua
