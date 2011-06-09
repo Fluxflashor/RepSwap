@@ -14,9 +14,6 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 -- doubts please revert your changes. This addon was tested by Fluxflashor
 -- before being uploaded to Curse.com so it's your fault if it breaks!
 
--- This is used during development. It is spammy as fuck so don't enable it
-RepSwap.TestMode = false;
-
 RepSwap = {
 	AddonName = AddonName,
 	Author = GetAddOnMetadata(AddonName, "Author"),
@@ -25,6 +22,9 @@ RepSwap = {
 	PlayerGuildName = "",
 	SetupFactionTable = true
 }
+
+-- This is used during development. It is spammy as fuck so don't enable it
+RepSwap.TestMode = false;
 
 -- Saved Variable Defaults
 RepSwapDB = {
