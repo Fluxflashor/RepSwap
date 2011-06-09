@@ -97,6 +97,7 @@ function RepSwap:Enable(enable)
 end
 
 SLASH_REPSWAP1 = "/rs";
+SLASH_REPSWAP2 = "/repswap";
 SlashCmdList["REPSWAP"] = function (msg) RepSwap:SlashHandler(msg) end;
 
 function RepSwap:Initialize()
