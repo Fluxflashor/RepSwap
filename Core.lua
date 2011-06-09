@@ -85,10 +85,12 @@ function RepSwap:Enable(enable)
 	if (enable) then
 		RepSwapDB.AddOnDisabled = false;
 		EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
+		RepSwap:CreateFactionTable();
 		RepSwap:MessageUser("Enabled Automagic Reputation Swapping =)");
 	else
 		RepSwapDB.AddOnDisabled = true;
 		EventFrame:UnregisterEvent("COMBAT_TEXT_UPDATE");
+		RepSwap.FactionTable = { };
 		RepSwap:MessageUser("Disabled Automagic Reputation Swapping =(");
 	end
 end
