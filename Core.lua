@@ -179,6 +179,7 @@ function RepSwap:EventHandler(self, event, ...)
 				RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
 			end
 		end
+		RepSwap.SetupFactionTable = true;
 	elseif (event == "PLAYER_GUILD_UPDATE") then
 		-- This fires when a player leaves or joins a new guild. Check to
 		-- see if the player is in a guild currently and if they are then
