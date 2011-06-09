@@ -18,11 +18,12 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 RepSwap.TestMode = false;
 
 RepSwap = {
-	AddonName = AddonName;
-	Author = GetAddOnMetadata(AddonName, "Author");
-	Version = GetAddOnMetadata(AddonName, "Version");
-	FactionTable = { };
-	PlayerGuildName = "";
+	AddonName = AddonName,
+	Author = GetAddOnMetadata(AddonName, "Author"),
+	Version = GetAddOnMetadata(AddonName, "Version"),
+	FactionTable = { },
+	PlayerGuildName = "",
+	SetupFactionTable = true
 }
 
 -- Saved Variable Defaults
@@ -139,25 +140,35 @@ function RepSwap:EventHandler(self, event, ...)
 		--SendChatMessage("COMBAT_TEXT_UPDATE", "OFFICER");
 		local messageType, factionName --[[, reputation]] = ...; 
 		if (messageType == "FACTION") then
-			if (RepSwap.TestMode) then
-				SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
-			end
-			-- This is the correct event so we will now check to see if
-			-- the reputation found is inside our faction index. If it is
-			-- then we can tell it to change the watched faction
-			
-			if (factionName == "Guild") then
-				if (RepSwap.TestMode) then
-					RepSwap:MessageUser("FactionName provided was 'Guild'.");
-				end
-				factionIndex = RepSwap:GetFactionIndexFromTable(RepSwap.PlayerGuildName, RepSwap.FactionTable);
+			if (RepSwapDB.AddOnDisabled) then
+				-- Do nothing :D
 			else
-				if (RepSwap.TestMode) then
-					RepSwap:MessageUser(string.format("FactionName provided was %s.", factionName));
+				if (RepSwap.SetupFactionTable) then
+					RepSwap.FactionTable = RepSwap:CreateFactionTable();
+					RepSwap.SetupFactionTable = false;
 				end
-				factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
+			
+				if (RepSwap.TestMode) then
+					SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
+				end
+				
+				-- This is the correct event so we will now check to see if
+				-- the reputation found is inside our faction index. If it is
+				-- then we can tell it to change the watched faction
+				
+				if (factionName == "Guild") then
+					if (RepSwap.TestMode) then
+						RepSwap:MessageUser("FactionName provided was 'Guild'.");
+					end
+					factionIndex = RepSwap:GetFactionIndexFromTable(RepSwap.PlayerGuildName, RepSwap.FactionTable);
+				else
+					if (RepSwap.TestMode) then
+						RepSwap:MessageUser(string.format("FactionName provided was %s.", factionName));
+					end
+					factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
+				end
+				RepSwap:UpdateWatchedFaction(factionIndex);
 			end
-			RepSwap:UpdateWatchedFaction(factionIndex);
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		-- Check to see if the player is in a guild so we can setup different rules for it
@@ -168,7 +179,6 @@ function RepSwap:EventHandler(self, event, ...)
 				RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
 			end
 		end
-		RepSwap.FactionTable = RepSwap:CreateFactionTable();
 	elseif (event == "PLAYER_GUILD_UPDATE") then
 		-- This fires when a player leaves or joins a new guild. Check to
 		-- see if the player is in a guild currently and if they are then
