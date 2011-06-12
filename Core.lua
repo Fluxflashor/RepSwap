@@ -9,8 +9,8 @@
 local AddonName, RepSwap = ...;
 local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
-local ldb = LibStub:NewLibrary("LibDataBroker-1.1");
-ldb:NewDataObject(RepSwapLDB)
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("RepSwap", { type = "data source", text = "RepSwap" } );
+--local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
 
 -- Editing below this line may cause the AddOn to stop behaving properly.
 -- Hell, you may have fucked something up in the config so if you have any
@@ -35,6 +35,46 @@ RepSwapDB = {
 	AddOnDisabled = false
 }
 
+-- Stuff for LDB 
+-- Thank you for the introduction to Tooltip code and LDB Tekkub! (github.com/tekkub/picoFPS)
+-- You are a fucking god
+
+local function GetTipAnchor(frame)
+	local x,y = frame:GetCenter();
+	if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end;
+	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or "";
+	local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM";
+	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf;
+end
+
+function dataobj.OnLeave()
+	GameTooltip:Hide();
+	tipshown = nil;
+end
+
+function dataobj.OnEnter(self)
+	tipshown = self;
+ 	GameTooltip:SetOwner(self, "ANCHOR_NONE");
+	GameTooltip:SetPoint(GetTipAnchor(self));
+	GameTooltip:ClearLines();
+	
+	FactionName, FactionStandingId, ReputationMin, ReputationMax, TotalReputationEarned = GetWatchedFactionInfo();
+	ReputationStandingLabel = getglobal("FACTION_STANDING_LABEL"..FactionStandingId);
+	ReputationStandingLabelNext = getglobal("FACTION_STANDING_LABEL"..FactionStandingId+1);
+	ReputationEarnedForThisStandingId = TotalReputationEarned - ReputationMin;
+	ReputationCapForThisStandingId = ReputationMax - TotalReputationEarned + ReputationEarnedForThisStandingId;
+	ReputationToReachNextStandingId = ReputationCapForThisStandingId - ReputationEarnedForThisStandingId;
+	
+	GameTooltip:AddLine("RepSwap", 1, 1, 1);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine(string.format("%s", FactionName), nil, nil, nil);
+	GameTooltip:AddDoubleLine(string.format("%s", ReputationStandingLabel), string.format("%s / %s", ReputationEarnedForThisStandingId, ReputationCapForThisStandingId), 1, 1, 1, 0, 1, 0);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddDoubleLine(string.format("Reputation til %s:", ReputationStandingLabelNext), string.format("%s", ReputationToReachNextStandingId), 1, 1, 1, 0, 1, 0);
+	GameTooltip:Show();
+end
+-- End stuff for LDB
 
 function RepSwap:MessageUser(message)
 	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
@@ -83,6 +123,7 @@ function RepSwap:RegisterEvents()
 	EventFrame:RegisterEvent("PLAYER_GUILD_UPDATE");
 	EventFrame:RegisterEvent("PLAYER_LOGOUT");
 	EventFrame:RegisterEvent("ADDON_LOADED");
+	EventFrame:RegisterEvent("UPDATE_FACTION");
 end
 
 function RepSwap:Enable(enable)
@@ -228,6 +269,14 @@ function RepSwap:EventHandler(self, event, ...)
 				RepSwap:Enable(false);
 			end
 		end
+	elseif (event == "UPDATE_FACTION") then
+		FactionName, FactionStanding, repmin, repmax, value = GetWatchedFactionInfo()
+		
+		FactionStandingLabel = getglobal("FACTION_STANDING_LABEL"..FactionStanding)
+		ReputationEarnedForStanding = value - repmin;
+		ReputationCapForStanding = repmax - value + ReputationEarnedForStanding;
+		
+		dataobj.text = string.format("%s - %s: %s/%s - %s", FactionName, FactionStandingLabel, ReputationEarnedForStanding, ReputationCapForStanding, value);
 	end
 end
 RepSwap:Initialize();

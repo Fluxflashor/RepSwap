@@ -4,6 +4,9 @@
 ## Author: @project-author@
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: RepSwapDB
+## X-Website: http://fluxflashor.net/
+## X-Email: Curse@Fluxflashor.net
+## X-Category: Questing
 
 Core.lua
 Localization/enUS.lua
