@@ -6,10 +6,11 @@
 ## SavedVariablesPerCharacter: RepSwapDB
 ## X-Website: http://fluxflashor.net/
 ## X-Email: Curse@Fluxflashor.net
-## X-Category: Questing
+## X-Category: Quest
 
 lib/tekKonfigAboutPanel.lua
 
 locale/enUS.lua
-RepSwapLDB.lua
+
 Core.lua
+RepSwapLDB.lua
