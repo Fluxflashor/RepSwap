@@ -9,6 +9,9 @@
 local AddonName, RepSwap = ...;
 local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
+local ldb = LibStub:NewLibrary("LibDataBroker-1.1");
+ldb:NewDataObject(RepSwapLDB)
+
 -- Editing below this line may cause the AddOn to stop behaving properly.
 -- Hell, you may have fucked something up in the config so if you have any
 -- doubts please revert your changes. This addon was tested by Fluxflashor
