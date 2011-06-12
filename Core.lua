@@ -19,8 +19,8 @@ local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
 
 RepSwap = {
 	AddonName = REPSWAP,
-	Author = GetAddOnMetadata(AddonName, "Author"),
-	Version = GetAddOnMetadata(AddonName, "Version"),
+	Author = GetAddOnMetadata(REPSWAP, "Author"),
+	Version = GetAddOnMetadata(REPSWAP, "Version"),
 	FactionTable = { },
 	PlayerGuildName = "",
 	SetupFactionTable = true
@@ -276,7 +276,7 @@ function RepSwap:EventHandler(self, event, ...)
 		ReputationEarnedForStanding = value - repmin;
 		ReputationCapForStanding = repmax - value + ReputationEarnedForStanding;
 		
-		dataobj.text = string.format("%s - %s: %s/%s", FactionName, FactionStandingLabel, ReputationEarnedForStanding, ReputationCapForStanding);
+		RepSwapLDB.text = string.format("%s - %s: %s/%s", FactionName, FactionStandingLabel, ReputationEarnedForStanding, ReputationCapForStanding);
 	end
 end
 RepSwap:Initialize();
