@@ -276,7 +276,7 @@ function RepSwap:EventHandler(self, event, ...)
 		ReputationEarnedForStanding = value - repmin;
 		ReputationCapForStanding = repmax - value + ReputationEarnedForStanding;
 		
-		dataobj.text = string.format("%s - %s: %s/%s - %s", FactionName, FactionStandingLabel, ReputationEarnedForStanding, ReputationCapForStanding, value);
+		dataobj.text = string.format("%s - %s: %s/%s", FactionName, FactionStandingLabel, ReputationEarnedForStanding, ReputationCapForStanding);
 	end
 end
 RepSwap:Initialize();
