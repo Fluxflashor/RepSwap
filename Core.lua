@@ -234,7 +234,6 @@ function RepSwap:EventHandler(self, event, ...)
 		if not FactionName then
 			-- FactionName isn't set don't do shit
 		else
-			RepSwap:MessageUser(FactionName .. " " .. FactionStandingId .. "" .. ReputationMin)
 			local FactionStandingLabel = _G["FACTION_STANDING_LABEL"..FactionStandingId];
 			local ReputationEarnedForThisStandingId = TotalReputationEarned - ReputationMin;
 			local ReputationCapForThisStandingId = ReputationMax - TotalReputationEarned + ReputationEarnedForThisStandingId;

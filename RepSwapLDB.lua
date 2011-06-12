@@ -26,7 +26,6 @@ RepSwapLDB = DataBroker:NewDataObject("RepSwap", {
 			ReputationToReachNextStandingId = ReputationCapForThisStandingId - ReputationEarnedForThisStandingId;
 			PercentEarnedForThisStandingId = floor(ReputationEarnedForThisStandingId * 100 / ReputationCapForThisStandingId);
 			PercentToReachNextStandingId = 100 - PercentEarnedForThisStandingId;
-			RepSwapLDB.text = "CLICK"
 			if (RepSwapDB.LDBDisplayPercent) then
 				RepSwapDB.LDBDisplayPercent = false;
 				RepSwapLDB.text = string.format("%s - %s: %s%%", FactionName, FactionStandingLabel, PercentEarnedForThisStandingId);
