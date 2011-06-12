@@ -8,5 +8,7 @@
 ## X-Email: Curse@Fluxflashor.net
 ## X-Category: Questing
 
+lib/tekKonfigAboutPanel.lua
+
+locale/enUS.lua
 Core.lua
-Localization/enUS.lua

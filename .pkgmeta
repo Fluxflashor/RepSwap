@@ -2,12 +2,14 @@ package-as: RepSwap
 license-output: LICENSE.txt
 
 externals:
-	libs/CallbackHandler-1.0:
+	lib/CallbackHandler-1.0:
 		url: svn://svn.wowace.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
 		tag: latest
-	libs/LibStub:
+	lib/LibStub:
 		url: svn://svn.wowace.com/wow/libstub/mainline/trunk
 		tag: latest
-	libs/LibDatabroker-1.1
+	lib/LibDatabroker-1.1:
 		url: git://github.com/tekkub/libdatabroker-1-1.git
 		tag: latest
+	lib/tekKonfigAboutPanel.lua:
+		url: git://github.com/tekkub/tekkonfig.git

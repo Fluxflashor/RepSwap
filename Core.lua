@@ -10,7 +10,7 @@ local AddonName, RepSwap = ...;
 local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("RepSwap", { type = "data source", text = "RepSwap", icon = "Interface\\Icons\\Achievement_reputation_08" } );
---local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
+local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
 
 -- Editing below this line may cause the AddOn to stop behaving properly.
 -- Hell, you may have fucked something up in the config so if you have any
