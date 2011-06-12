@@ -6,10 +6,10 @@
 	@File          Core.lua 
 	]]
 
-local AddonName, RepSwap = ...;
+local REPSWAP, RepSwap = ...;
 local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("RepSwap", { type = "data source", label = "RepSwap", text = "RepSwap", icon = "Interface\\Icons\\Achievement_reputation_08" } );
+--local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("RepSwap", { type = "data source", label = "RepSwap", text = "RepSwap", icon = "Interface\\Icons\\Achievement_reputation_08" } );
 local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
 
 -- Editing below this line may cause the AddOn to stop behaving properly.
@@ -18,7 +18,7 @@ local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
 -- before being uploaded to Curse.com so it's your fault if it breaks!
 
 RepSwap = {
-	AddonName = AddonName,
+	AddonName = REPSWAP,
 	Author = GetAddOnMetadata(AddonName, "Author"),
 	Version = GetAddOnMetadata(AddonName, "Version"),
 	FactionTable = { },
@@ -35,7 +35,7 @@ RepSwapDB = {
 	AddOnDisabled = false
 }
 
--- Stuff for LDB 
+--[[ Stuff for LDB 
 -- Thank you for the introduction to Tooltip code and LDB Tekkub! (github.com/tekkub/picoFPS)
 -- You are a fucking god
 
@@ -74,7 +74,7 @@ function dataobj.OnEnter(self)
 	GameTooltip:AddDoubleLine(string.format("Reputation til %s:", ReputationStandingLabelNext), string.format("%s", ReputationToReachNextStandingId), 1, 1, 1, 0, 1, 0);
 	GameTooltip:Show();
 end
--- End stuff for LDB
+-- End stuff for LDB]]
 
 function RepSwap:MessageUser(message)
 	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));

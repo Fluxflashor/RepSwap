@@ -11,4 +11,5 @@
 lib/tekKonfigAboutPanel.lua
 
 locale/enUS.lua
+RepSwapLDB.lua
 Core.lua
