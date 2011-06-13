@@ -229,7 +229,6 @@ function RepSwap:EventHandler(self, event, ...)
 		end
 		RepSwap:RegisterEvents()
 	elseif (event == "UPDATE_FACTION") then
-		
 		local FactionName, FactionStandingId, ReputationMin, ReputationMax, TotalReputationEarned = GetWatchedFactionInfo();
 		if not FactionName then
 			-- FactionName isn't set don't do shit
