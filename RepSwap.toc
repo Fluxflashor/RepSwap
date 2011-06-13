@@ -8,10 +8,10 @@
 ## X-Email: Curse@Fluxflashor.net
 ## X-Category: Quest
 
-lib/tekKonfigAboutPanel.lua
-lib/LibStub.lua
-lib/CallbackHandler-1.0.lua
-lib/LibDataBroker-1.1\LibDataBroker-1.1.lua
+lib\LibStub.lua
+lib\tekKonfigAboutPanel.lua
+lib\CallbackHandler-1.0.lua
+lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 locale/enUS.lua
 
