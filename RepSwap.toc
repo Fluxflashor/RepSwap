@@ -1,4 +1,4 @@
-## Interface: 40100
+## Interface: 40200
 ## Title: RepSwap
 ## Notes: Changes your watched reputation based on the faction you last gained rep with
 ## Author: @project-author@
