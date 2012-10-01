@@ -51,18 +51,26 @@ RepSwapLDB = DataBroker:NewDataObject("RepSwap", {
 		
 			tooltip:AddLine("RepSwap", 1, 1, 1);
 			tooltip:AddLine(" ");
-			tooltip:AddLine(" ");
 			tooltip:AddLine(string.format("%s", FactionName), nil, nil, nil);
 			tooltip:AddDoubleLine(string.format("%s", FactionStandingLabel), string.format("%s / %s (%s%%)", ReputationEarnedForThisStandingId, ReputationCapForThisStandingId, PercentEarnedForThisStandingId), 1, 1, 1, 0, 1, 0);
 			tooltip:AddLine(" ");
 			tooltip:AddDoubleLine(string.format("Reputation til %s:", FactionStandingLabelNext), string.format("%s (%s%%)", ReputationToReachNextStandingId, PercentToReachNextStandingId), 1, 1, 1, 0, 1, 0);
 			tooltip:AddLine(" ");
+			tooltip:AddLine(string.format("Reputation earned this session"), nil, nil, nil);
+
+			for factionName, reputationGainedThisSession in pairs(RepSwap.SessionReputation) do
+				--if RepSwap.TestMode then
+				    RepSwap:MessageUser(string.format("%s %s", factionName, reputationGainedThisSession))
+                --end
+                tooltip:AddDoubleLine(string.format("%s", factionName), string.format("%s", reputationGainedThisSession))
+			end
 			--[[
 			if (RepSwapDB.LDBDisplayPercent) then
 				tooltip:AddLine("Hint: Left-click to display progress as fraction.", 0, 1, 0);
 			else
 				tooltip:AddLine("Hint: Left-click to display progress as percentage.", 0, 1, 0)
 			end]]
+			tooltip:AddLine(" ");
 			tooltip:AddLine("Hint: Left-click to switch the displayed reputation as percentage or fraction.", 0, 1, 0, 1);
 			tooltip:Show();
 		end

@@ -16,14 +16,14 @@ local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
 -- doubts please revert your changes. This addon was tested by Fluxflashor
 -- before being uploaded to Curse.com so it's your fault if it breaks!
 
-RepSwap = {
-	AddonName = REPSWAP,
-	Author = GetAddOnMetadata(REPSWAP, "Author"),
-	Version = GetAddOnMetadata(REPSWAP, "Version"),
-	FactionTable = { },
-	PlayerGuildName = ""--[[,
-	SetupFactionTable = true]]
-}
+
+RepSwap.AddonName = REPSWAP
+RepSwap.Author = GetAddOnMetadata(REPSWAP, "Author")
+RepSwap.Version = GetAddOnMetadata(REPSWAP, "Version")
+RepSwap.FactionTable = { }
+RepSwap.PlayerGuildName = ""
+RepSwap.SessionReputation = { }
+
 
 -- This is used during development. It is spammy as fuck so don't enable it
 RepSwap.TestMode = false;
@@ -84,6 +84,22 @@ end
 function RepSwap:UpdateWatchedFaction(factionIndex)
 	-- Updates our tracked reputation on the blizzard reputation bar
 	SetWatchedFactionIndex(factionIndex);
+end
+
+function RepSwap:AddSessionReputation(factionName, reputationGain)
+    -- Adds all session based reputation gains to a common table to use with LDB
+
+    if RepSwap.SessionReputation[factionName] == nil then
+    	if RepSwap.TestMode then
+            RepSwap:MessageUser(string.format("The key, %s, exists inside SessionReputation Table.", factionName))
+        end
+        RepSwap.SessionReputation[factionName] = RepSwap.SessionReputation[factionName] + reputationGain
+    else
+    	if RepSwap.TestMode then
+            RepSwap:MessageUser(string.format("The key, %s, does not exist inside SessionReputation Table.", factionName))
+        end
+    	RepSwap.SessionReputation[factionName] = reputationGain
+    end
 end
 
 function RepSwap:RegisterEvents()
@@ -151,7 +167,7 @@ end
 function RepSwap:EventHandler(self, event, ...)
 	if (event == "COMBAT_TEXT_UPDATE") then
 		--SendChatMessage("COMBAT_TEXT_UPDATE", "OFFICER");
-		local messageType, factionName --[[, reputation]] = ...; 
+		local messageType, factionName, reputationGain = ...; 
 		if (messageType == "FACTION") then
 			if (RepSwapDB.AddOnDisabled) then
 				-- Do nothing :D
@@ -186,6 +202,7 @@ function RepSwap:EventHandler(self, event, ...)
 					factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
 				end
 				RepSwap:UpdateWatchedFaction(factionIndex);
+				RepSwap:AddSessionReputation(factionName, reputationGain);
 			end
 		end
 	elseif (event == "PLAYER_ENTERING_WORLD") then
