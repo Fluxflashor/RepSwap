@@ -62,7 +62,7 @@ RepSwapLDB = DataBroker:NewDataObject("RepSwap", {
 				--if RepSwap.TestMode then
 				    RepSwap:MessageUser(string.format("%s %s", factionName, reputationGainedThisSession))
                 --end
-                tooltip:AddDoubleLine(string.format("%s", factionName), string.format("%s", reputationGainedThisSession))
+                tooltip:AddDoubleLine(string.format("%s", factionName), string.format("%s", reputationGainedThisSession), 1, 1, 1, 0, 1, 0)
 			end
 			--[[
 			if (RepSwapDB.LDBDisplayPercent) then
