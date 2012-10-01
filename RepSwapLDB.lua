@@ -59,9 +59,9 @@ RepSwapLDB = DataBroker:NewDataObject("RepSwap", {
 			tooltip:AddLine(string.format("Reputation earned this session"), nil, nil, nil);
 
 			for factionName, reputationGainedThisSession in pairs(RepSwap.SessionReputation) do
-				--if RepSwap.TestMode then
+				if RepSwap.TestMode then
 				    RepSwap:MessageUser(string.format("%s %s", factionName, reputationGainedThisSession))
-                --end
+                end
                 tooltip:AddDoubleLine(string.format("%s", factionName), string.format("%s", reputationGainedThisSession), 1, 1, 1, 0, 1, 0)
 			end
 			--[[
