@@ -156,10 +156,15 @@ function RepSwap:EventHandler(self, event, ...)
 			if (RepSwapDB.AddOnDisabled) then
 				-- Do nothing :D
 			else
-				if (RepSwap.SetupFactionTable) then
+
+                if (RepSwap.SetupFactionTable) then
 					RepSwap.FactionTable = RepSwap:CreateFactionTable();
 					RepSwap.SetupFactionTable = false;
 				end
+
+                if not table.contains(RepSwap.FactionTable, factionName) then
+                    RepSwap.FactionTable = RepSwap:CreateFactionTable();
+                end
 			
 				if (RepSwap.TestMode) then
 					SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
