@@ -89,7 +89,7 @@ end
 function RepSwap:AddSessionReputation(factionName, reputationGain)
     -- Adds all session based reputation gains to a common table to use with LDB
 
-    if RepSwap.SessionReputation[factionName] == nil then
+    if RepSwap.SessionReputation[factionName] ~= nil then
         if RepSwap.TestMode then
             RepSwap:MessageUser(string.format("The key, %s, exists inside SessionReputation Table.", factionName))
         end
