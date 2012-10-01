@@ -5,7 +5,7 @@
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: RepSwapDB
 ## X-Website: http://fluxflashor.net/
-## X-Email: Curse@Fluxflashor.net
+## X-Email: Robert@Fluxflashor.net
 ## X-Category: Quest
 
 lib\LibStub.lua
