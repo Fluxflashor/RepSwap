@@ -35,6 +35,16 @@ RepSwapDB = {
 	LDBDisplayPercent = false
 }
 
+--[[ Checks if an variable is inside of a table ]]
+function table.contains(table, element)
+    for _, value in pairs(table) do
+        if value == element then
+            return true
+        end
+    end
+    return false
+end
+
 function RepSwap:MessageUser(message)
 	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
 end
