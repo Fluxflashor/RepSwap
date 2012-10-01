@@ -21,8 +21,8 @@ RepSwap = {
 	Author = GetAddOnMetadata(REPSWAP, "Author"),
 	Version = GetAddOnMetadata(REPSWAP, "Version"),
 	FactionTable = { },
-	PlayerGuildName = "",
-	SetupFactionTable = true
+	PlayerGuildName = ""--[[,
+	SetupFactionTable = true]]
 }
 
 -- This is used during development. It is spammy as fuck so don't enable it
@@ -108,7 +108,7 @@ function RepSwap:Enable(enable)
 	end
 end
 
-SLASH_REPSWAP1 = "/rs";
+SLASH_REPSWAP1 = "/rs"; 
 SLASH_REPSWAP2 = "/repswap";
 SlashCmdList["REPSWAP"] = function (msg) RepSwap:SlashHandler(msg) end;
 
@@ -157,10 +157,10 @@ function RepSwap:EventHandler(self, event, ...)
 				-- Do nothing :D
 			else
 
-                if (RepSwap.SetupFactionTable) then
+                --[[if (RepSwap.SetupFactionTable) then
 					RepSwap.FactionTable = RepSwap:CreateFactionTable();
 					RepSwap.SetupFactionTable = false;
-				end
+				end]]
 
                 if not table.contains(RepSwap.FactionTable, factionName) then
                     RepSwap.FactionTable = RepSwap:CreateFactionTable();
