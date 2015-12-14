@@ -36,8 +36,8 @@ RepSwapDB = {
 
 --[[ Checks if an variable is inside of a table ]]
 function table.contains(table, element)
-    for _, value in pairs(table) do
-        if value == element then
+    for key, value in pairs(table) do
+        if key == element then
             return true
         end
     end
@@ -73,6 +73,7 @@ function RepSwap:CreateFactionTable()
         factionTable[factionName] = i;
         RepSwap:TestModeMessage(SF("[Name] %s [ID] %s", factionName, factionTable[factionName]));
     end
+
     RepSwap.FactionTable = factionTable;
     return RepSwap.FactionTable;
 end
