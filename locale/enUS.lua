@@ -25,3 +25,12 @@ RepSwapL["SCMD_MSG_WARNINGS_ON"] = "Warnings are now being displayed.";
 RepSwapL["SCMD_MSG_WARNINGS_OFF"] = "Warnings are no longer being displayed.";
 RepSwapL["SCMD_MSG_DEBUG_ON"] = "Debug messages are now being displayed.";
 RepSwapL["SCMD_MSG_DEBUG_OFF"] = "Debug messages are no longer being displayed.";
+RepSwapL["SCMD_MSG_ENABLE"] = "Enabled Automagic Reputation Swapping =)";
+RepSwapL["SCMD_MSG_DISABLE"] = "Disabled Automagic Reputation Swapping =(";
+
+-- Warning Messages
+RepSwapL["WARN_ADDON_DISABLED"] = "RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.";
+
+-- Misc
+RepSwapL["ADDON_LOADED"] = "GLHF! Loaded Version is %s. Author is %s.";
+RepSwapL["NEW_FACTION_DISCOVERED"] = "You've encountered a new faction - %s";

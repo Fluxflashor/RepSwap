@@ -75,7 +75,7 @@ function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
     -- Returns the factionIndex of the faction
     if not table.contains(factionTable, factionName) then
         RepSwap.FactionTable = RepSwap:CreateFactionTable();
-        RepSwap:MessageUser(string.format("You've encountered a new faction - %s", factionName));
+        RepSwap:MessageUser(string.format(L["NEW_FACTION_DISCOVERED"], factionName));
     end
     if (RepSwapDB.TestMode) then
         RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable[factionName]));
@@ -116,12 +116,12 @@ function RepSwap:Enable(enable)
         RepSwapDB.AddOnDisabled = false;
         EventFrame:RegisterEvent("COMBAT_TEXT_UPDATE");
         RepSwap.SetupFactionTable = true;
-        RepSwap:MessageUser("Enabled Automagic Reputation Swapping =)");
+        RepSwap:MessageUser(L["SCMD_MSG_ENABLE"]);
     else
         RepSwapDB.AddOnDisabled = true;
         EventFrame:UnregisterEvent("COMBAT_TEXT_UPDATE");
         RepSwap.FactionTable = { };
-        RepSwap:MessageUser("Disabled Automagic Reputation Swapping =(");
+        RepSwap:MessageUser(L["SCMD_MSG_DISABLE"]);
     end
 end
 
@@ -190,7 +190,7 @@ function RepSwap:EventHandler(self, event, ...)
                       RepSwap:MessageUser("Recreating FactionTable due to faction not being inside of it");
                   end
                     RepSwap.FactionTable = RepSwap:CreateFactionTable();
-                    RepSwap:MessageUser(string.format("You've encountered a new faction - %s", factionName));
+                    RepSwap:MessageUser(string.format(L["NEW_FACTION_DISCOVERED"], factionName));
                 end
 
                 if (RepSwapDB.TestMode) then
@@ -254,7 +254,7 @@ function RepSwap:EventHandler(self, event, ...)
             if (RepSwap.Author == "@project-author@") then
                 RepSwap.Author = "Fluxflashor (Local)";
             end
-            RepSwap:MessageUser(string.format("Loaded Version is %s. Author is %s.", RepSwap.Version, RepSwap.Author));
+            RepSwap:MessageUser(string.format(L["ADDON_LOADED"], RepSwap.Version, RepSwap.Author));
             if (RepSwapDB.TestMode) then
                 RepSwap:MessageUser(string.format("%s is %s.", LoadedAddonName, AddonName));
             end
@@ -263,7 +263,7 @@ function RepSwap:EventHandler(self, event, ...)
                     RepSwap:MessageUser("Unregistering Events.");
                 end
                 if (not RepSwapDB.SuppressWarnings) then
-                    RepSwap:WarnUser("RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.");
+                    RepSwap:WarnUser(L["WARN_ADDON_DISABLED"]);
                 end
                 RepSwap:Enable(false);
             end
