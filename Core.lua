@@ -192,7 +192,7 @@ function RepSwap:SlashHandler(msg)
         RepSwap:MessageUser(L["SCMD_MSG_DEBUG_ON"]);
     elseif (command == "debugoff") then
         RepSwapDB.TestMode = false;
-        RepSwap:MessageUser(L["SCMD_MSG_DEBUG_ON"]);
+        RepSwap:MessageUser(L["SCMD_MSG_DEBUG_OFF"]);
     end
 end
 
