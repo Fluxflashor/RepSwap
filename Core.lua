@@ -1,9 +1,9 @@
---[[ 
+--[[
     @Package       RepSwap
     @Description   Changes your watched reputation based on the faction you last gained rep with
     @Author        Robert "Fluxflashor" Veitch <Robert@Fluxflashor.net>
     @Repo          http://github.com/Fluxflashor/RepSwap
-    @File          Core.lua 
+    @File          Core.lua
     ]]
 
 local REPSWAP, RepSwap = ...;
@@ -57,11 +57,11 @@ function RepSwap:CreateFactionTable()
     -- This creates an table of all factions the player has encountered.
     local factionTable = { };
     local numFactions = GetNumFactions();
-    
+
     if (numFactions == 0) then
         return factionTable;
     end
-    
+
     for i=1, numFactions do
         local factionName = select(1,GetFactionInfo(i));
         factionTable[factionName] = i;
@@ -69,12 +69,16 @@ function RepSwap:CreateFactionTable()
             RepSwap:MessageUser(string.format("FactionName: %s. FactionID: %s.", factionName, i));
         end
     end
-    
+
     return factionTable;
 end
 
 function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
     -- Returns the factionIndex of the faction
+    if not table.contains(factionTable, factionName) then
+        RepSwap.FactionTable = RepSwap:CreateFactionTable();
+        RepSwap:MessageUser(string.format("You've encountered a new faction - %s", factionName));
+    end
     if (RepSwap.TestMode) then
         RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable[factionName]));
     end
@@ -124,7 +128,7 @@ function RepSwap:Enable(enable)
     end
 end
 
-SLASH_REPSWAP1 = "/rs"; 
+SLASH_REPSWAP1 = "/rs";
 SLASH_REPSWAP2 = "/repswap";
 SlashCmdList["REPSWAP"] = function (msg) RepSwap:SlashHandler(msg) end;
 
@@ -135,11 +139,11 @@ end
 
 function RepSwap:SlashHandler(msg)
     local command = "";
-    
+
     if (msg) then
         command = string.lower(msg);
     end
-    
+
     if (command == "" or command == "help" or command == "usage") then
         RepSwap:MessageUser("Slash Command Usage");
         RepSwap:MessageUser("  help    - Displays 'Slash Command Usage'.");
@@ -167,7 +171,7 @@ end
 function RepSwap:EventHandler(self, event, ...)
     if (event == "COMBAT_TEXT_UPDATE") then
         --SendChatMessage("COMBAT_TEXT_UPDATE", "OFFICER");
-        local messageType, factionName, reputationGain = ...; 
+        local messageType, factionName, reputationGain = ...;
         if (messageType == "FACTION") then
             if (RepSwapDB.AddOnDisabled) then
                 -- Do nothing :D
@@ -179,17 +183,21 @@ function RepSwap:EventHandler(self, event, ...)
                 end]]
 
                 if not table.contains(RepSwap.FactionTable, factionName) then
+                  if (RepSwap.TestMode) then
+                      RepSwap:MessageUser("Recreating FactionTable due to faction not being inside of it");
+                  end
                     RepSwap.FactionTable = RepSwap:CreateFactionTable();
+                    RepSwap:MessageUser(string.format("You've encountered a new faction - %s", factionName));
                 end
-            
+
                 if (RepSwap.TestMode) then
                     SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
                 end
-                
+
                 -- This is the correct event so we will now check to see if
                 -- the reputation found is inside our faction index. If it is
                 -- then we can tell it to change the watched faction
-                
+
                 if (factionName == "Guild") then
                     if (RepSwap.TestMode) then
                         RepSwap:MessageUser("FactionName provided was 'Guild'.");
@@ -269,7 +277,7 @@ function RepSwap:EventHandler(self, event, ...)
             local ReputationEarnedForThisStandingId = TotalReputationEarned - ReputationMin;
             local ReputationCapForThisStandingId = ReputationMax - TotalReputationEarned + ReputationEarnedForThisStandingId;
             local ReputationToReachNextStandingId = ReputationCapForThisStandingId - ReputationEarnedForThisStandingId;
-            
+
             if (RepSwapDB.LDBDisplayPercent) then
                 PercentEarnedForThisStandingId = floor(ReputationEarnedForThisStandingId * 100 / ReputationCapForThisStandingId);
                 RepSwapLDB.text = string.format("%s - %s: %s%%", FactionName, FactionStandingLabel, PercentEarnedForThisStandingId);
