@@ -11,6 +11,7 @@ local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
 local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap");
 local L = RepSwapL;
+local SF = string.format;
 
 -- Editing below this line may cause the AddOn to stop behaving properly.
 -- Hell, you may have fucked something up in the config so if you have any
@@ -35,8 +36,8 @@ RepSwapDB = {
 
 --[[ Checks if an variable is inside of a table ]]
 function table.contains(table, element)
-    for _, value in pairs(table) do
-        if value == element then
+    for key, value in pairs(table) do
+        if key == element then
             return true
         end
     end
@@ -51,41 +52,66 @@ function RepSwap:WarnUser(message)
     DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: |cffc41f3b%s|r", message));
 end
 
+function RepSwap:TestModeMessage(message)
+    if RepSwapDB.TestMode then
+        DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap (TestMode)|r: %s", message));
+    end
+end
+
 function RepSwap:CreateFactionTable()
     -- This creates an table of all factions the player has encountered.
     local factionTable = { };
     local numFactions = GetNumFactions();
 
     if (numFactions == 0) then
-        return factionTable;
+        RepSwap.FactionTable = factionTable;
+        return RepSwap.FactionTable;
     end
 
     for i=1, numFactions do
         local factionName = select(1,GetFactionInfo(i));
         factionTable[factionName] = i;
-        if (RepSwapDB.TestMode) then
-            RepSwap:MessageUser(string.format("FactionName: %s. FactionID: %s.", factionName, i));
+        RepSwap:TestModeMessage(SF("[Name] %s [ID] %s", factionName, factionTable[factionName]));
+    end
+
+    RepSwap.FactionTable = factionTable;
+    return RepSwap.FactionTable;
+end
+
+function RepSwap:FactionIsInTable(factionName)
+    if table.contains(RepSwap.FactionTable, factionName) then
+       RepSwap:TestModeMessage("YARRR");
+       return true;
+    end
+    return false;
+end
+
+function RepSwap:GetFactionIndexFromTable(factionName)
+    -- Returns the factionIndex of the faction
+    if not RepSwap:FactionIsInTable(factionName) then
+        RepSwap:TestModeMessage(SF("Faction '%s' was not in the faction table.", factionName));
+        RepSwap:CreateFactionTable();
+
+        if RepSwap:FactionIsInTable(factionName) then
+            RepSwap:MessageUser(SF(L["NEW_FACTION_DISCOVERED"], factionName));
+        else
+            RepSwap:TestModeMessage(SF("Unable to place this faction in the faction table."));
+            return nil;
         end
     end
 
-    return factionTable;
+    RepSwap:TestModeMessage(string.format("Faction: %s. FactionIndex: %s.", factionName, RepSwap.FactionTable[factionName]));
+    return RepSwap.FactionTable[factionName];
 end
 
-function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
-    -- Returns the factionIndex of the faction
-    if not table.contains(factionTable, factionName) then
-        RepSwap.FactionTable = RepSwap:CreateFactionTable();
-        RepSwap:MessageUser(string.format(L["NEW_FACTION_DISCOVERED"], factionName));
-    end
-    if (RepSwapDB.TestMode) then
-        RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable[factionName]));
-    end
-    return factionTable[factionName];
-end
-
-function RepSwap:UpdateWatchedFaction(factionIndex)
+function RepSwap:UpdateWatchedFaction(factionName)
     -- Updates our tracked reputation on the blizzard reputation bar
-    SetWatchedFactionIndex(factionIndex);
+    RepSwap:TestModeMessage("UpdateWatchedFaction Running..");
+    local factionIndex = RepSwap:GetFactionIndexFromTable(factionName);
+    if factionIndex ~= nil then
+        RepSwap:TestModeMessage("UpdateWatchedFaction's factionIndex was not nil");
+        SetWatchedFactionIndex(factionIndex);
+    end
 end
 
 function RepSwap:AddSessionReputation(factionName, reputationGain)
@@ -167,12 +193,13 @@ function RepSwap:SlashHandler(msg)
         RepSwap:MessageUser(L["SCMD_MSG_DEBUG_ON"]);
     elseif (command == "debugoff") then
         RepSwapDB.TestMode = false;
-        RepSwap:MessageUser(L["SCMD_MSG_DEBUG_ON"]);
+        RepSwap:MessageUser(L["SCMD_MSG_DEBUG_OFF"]);
     end
 end
 
 function RepSwap:EventHandler(self, event, ...)
     if (event == "COMBAT_TEXT_UPDATE") then
+
         --SendChatMessage("COMBAT_TEXT_UPDATE", "OFFICER");
         local messageType, factionName, reputationGain = ...;
         if (messageType == "FACTION") then
@@ -185,13 +212,7 @@ function RepSwap:EventHandler(self, event, ...)
                     RepSwap.SetupFactionTable = false;
                 end]]
 
-                if not table.contains(RepSwap.FactionTable, factionName) then
-                  if (RepSwapDB.TestMode) then
-                      RepSwap:MessageUser("Recreating FactionTable due to faction not being inside of it");
-                  end
-                    RepSwap.FactionTable = RepSwap:CreateFactionTable();
-                    RepSwap:MessageUser(string.format(L["NEW_FACTION_DISCOVERED"], factionName));
-                end
+
 
                 if (RepSwapDB.TestMode) then
                     SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
@@ -205,14 +226,11 @@ function RepSwap:EventHandler(self, event, ...)
                     if (RepSwapDB.TestMode) then
                         RepSwap:MessageUser("FactionName provided was 'Guild'.");
                     end
-                    factionIndex = RepSwap:GetFactionIndexFromTable(RepSwap.PlayerGuildName, RepSwap.FactionTable);
-                else
-                    if (RepSwapDB.TestMode) then
-                        RepSwap:MessageUser(string.format("FactionName provided was %s.", factionName));
-                    end
-                    factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
+                    RepSwap:TestModeMessage("factionName provided was 'Guild'.");
+                    factionName = RepSwap.PlayerGuildName;
                 end
-                RepSwap:UpdateWatchedFaction(factionIndex);
+
+                RepSwap:UpdateWatchedFaction(factionName);
                 RepSwap:AddSessionReputation(factionName, reputationGain);
             end
         end
