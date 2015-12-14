@@ -1,12 +1,12 @@
 RepSwap - A World of Warcraft AddOn
 ===================================
 
-RepSwap changes your tracked reputation based on the last faction you earned reputation with. It is very lightweight and requires no configuration from the end user (you). RepSwap was created for a guildie who was rep grinding one night and wouldn't stop complaining about having to change her reps around every time she wanted to watch a new faction.
+RepSwap changes your tracked reputation based on the last faction you earned reputation with. It is very lightweight and requires no configuration from the end user (you). RepSwap was created for a guildie who was rep grinding one night and wouldn't stop complaining about having to change her reps around everytime she wanted to watch a new faction.
 
 Installation
 ------------
 
-All Stable Releases of RepSwap are automagically packaged on [Curse](http://curse.com) and available through the [Curse Client](http://www.curse.com/client/). The addon can be downloaded from the [RepSwap Project Page](http://www.curse.com/addons/wow/repswap) using the manual function or the client buttons.
+All Stable Releases of RepSwap are automagically packaged on [Curse](http://curse.com) and available through the [Curse Client](http://www.curse.com/client/). The addon can be downloaded from the [RepSwap Project Page](http://wow.curse.com/downloads/wow-addons/details/repswap.aspx) using the manual function or the client buttons.
 
 Development
 -----------
