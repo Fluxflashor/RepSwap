@@ -142,12 +142,12 @@ function RepSwap:SlashHandler(msg)
     end
 
     if (command == "" or command == "help" or command == "usage") then
-        RepSwap:MessageUser("Slash Command Usage");
-        RepSwap:MessageUser("  help    - Displays 'Slash Command Usage'.");
-        RepSwap:MessageUser("  disable - Disables RepSwap.");
-        RepSwap:MessageUser("  enable  - Enables RepSwap.");
-        RepSwap:MessageUser("  warnoff - Disables Warnings.");
-        RepSwap:MessageUser("  warnon  - Enables Warnings.");
+        RepSwap:MessageUser(L["SCMD_INFO_USAGE"]);
+        RepSwap:MessageUser(L["SCMD_INFO_HELP"]);
+        RepSwap:MessageUser(L["SCMD_INFO_DISABLE"]);
+        RepSwap:MessageUser(L["SCMD_INFO_ENABLE"]);
+        RepSwap:MessageUser(L["SCMD_INFO_WARN_OFF"]);
+        RepSwap:MessageUser(L["SCMD_INFO_WARN_ON"]);
     elseif (command == "off" or command == "disable") then
         -- Disable the addon
         RepSwap:Enable(false);
@@ -157,17 +157,17 @@ function RepSwap:SlashHandler(msg)
     elseif (command == "warnon" or command == "won") then
         -- Enables Warnings
         RepSwapDB.SuppressWarnings = false;
-        RepSwap:MessageUser("Warnings are now being hidden.");
+        RepSwap:MessageUser(L["SCMD_MSG_WARNINGS_ON"]);
     elseif (command == "warnoff" or command == "woff") then
         -- Diables Warnings
         RepSwapDB.SuppressWarnings = true;
-        RepSwap:MessageUser("Warnings are now being shown.");
+        RepSwap:MessageUser(L["SCMD_MSG_WARNINGS_OFF"]);
     elseif (command == "debugon") then
         RepSwapDB.TestMode = true;
-        RepSwap:MessageUser("Debug mode has been turned on.")
+        RepSwap:MessageUser(L["SCMD_MSG_DEBUG_ON"]);
     elseif (command == "debugoff") then
-      RepSwapDB.TestMode = false;
-      RepSwap:MessageUser("Debug mode has been turned off.")
+        RepSwapDB.TestMode = false;
+        RepSwap:MessageUser(L["SCMD_MSG_DEBUG_ON"]);
     end
 end
 
