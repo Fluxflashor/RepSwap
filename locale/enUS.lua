@@ -32,5 +32,11 @@ RepSwapL["SCMD_MSG_DISABLE"] = "Disabled Automagic Reputation Swapping =(";
 RepSwapL["WARN_ADDON_DISABLED"] = "RepSwap is disabled. Your reputation bar will not change on rep gains. To re-enable it type '/rs on'.";
 
 -- Misc
+RepSwapL["ADDON_NAME"] = "RepSwap";
 RepSwapL["ADDON_LOADED"] = "GLHF! Loaded Version is %s. Author is %s.";
 RepSwapL["NEW_FACTION_DISCOVERED"] = "You've encountered a new faction - %s";
+
+-- LibDataBroker
+RepSwapL["LDB_REPUTATION_TIL"] = "Reputation til %s:";
+RepSwapL["LDB_THIS_SESSION_HEADER"] = "Reputation earned this session";
+RepSwapL["LDB_CLICK_HINT"] = "Hint: Left-click to switch the displayed reputation as percentage or fraction.";
