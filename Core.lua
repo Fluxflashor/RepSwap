@@ -104,9 +104,10 @@ function RepSwap:GetFactionIndexFromTable(factionName)
     return RepSwap.FactionTable[factionName];
 end
 
-function RepSwap:UpdateWatchedFaction(factionIndex)
+function RepSwap:UpdateWatchedFaction(factionName)
     -- Updates our tracked reputation on the blizzard reputation bar
     RepSwap:TestModeMessage("UpdateWatchedFaction Running..");
+    local factionIndex = RepSwap:GetFactionIndexFromTable(factionName);
     if factionIndex ~= nil then
         RepSwap:TestModeMessage("UpdateWatchedFaction's factionIndex was not nil");
         SetWatchedFactionIndex(factionIndex);
@@ -225,14 +226,11 @@ function RepSwap:EventHandler(self, event, ...)
                     if (RepSwapDB.TestMode) then
                         RepSwap:MessageUser("FactionName provided was 'Guild'.");
                     end
-                    factionIndex = RepSwap:GetFactionIndexFromTable(RepSwap.PlayerGuildName);
-                else
-                    if (RepSwapDB.TestMode) then
-                        RepSwap:MessageUser(string.format("FactionName provided was %s.", factionName));
-                    end
-                    factionIndex = RepSwap:GetFactionIndexFromTable(factionName);
+                    RepSwap:TestModeMessage("factionName provided was 'Guild'.");
+                    factionName = RepSwap.PlayerGuildName;
                 end
-                RepSwap:UpdateWatchedFaction(factionIndex);
+
+                RepSwap:UpdateWatchedFaction(factionName);
                 RepSwap:AddSessionReputation(factionName, reputationGain);
             end
         end
