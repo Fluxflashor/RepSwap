@@ -32,7 +32,8 @@ RepSwap.TestMode = false;
 RepSwapDB = {
     SuppressWarnings = false,
     AddOnDisabled = false,
-    LDBDisplayPercent = false
+    LDBDisplayPercent = false,
+    TestMode = false,
 }
 
 --[[ Checks if an variable is inside of a table ]]
@@ -165,6 +166,12 @@ function RepSwap:SlashHandler(msg)
         -- Diables Warnings
         RepSwapDB.SuppressWarnings = true;
         RepSwap:MessageUser("Warnings are now being shown.");
+    elseif (command == "debugon") then
+        RepSwapDB.TestMode = true;
+        RepSwap:MessageUser("Debug mode has been turned on.")
+    elseif (command == "debugoff") then
+      RepSwapDB.TestMode = false;
+      RepSwap:MessageUser("Debug mode has been turned off.")
     end
 end
 
