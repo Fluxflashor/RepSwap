@@ -9,7 +9,8 @@
 local REPSWAP, RepSwap = ...;
 local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
-local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap")
+local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap");
+local L = RepSwapL;
 
 -- Editing below this line may cause the AddOn to stop behaving properly.
 -- Hell, you may have fucked something up in the config so if you have any
