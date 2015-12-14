@@ -24,10 +24,6 @@ RepSwap.FactionTable = { }
 RepSwap.PlayerGuildName = ""
 RepSwap.SessionReputation = { }
 
-
--- This is used during development. It is spammy as fuck so don't enable it
-RepSwap.TestMode = false;
-
 -- Saved Variable Defaults
 RepSwapDB = {
     SuppressWarnings = false,
@@ -66,7 +62,7 @@ function RepSwap:CreateFactionTable()
     for i=1, numFactions do
         local factionName = select(1,GetFactionInfo(i));
         factionTable[factionName] = i;
-        if (RepSwap.TestMode) then
+        if (RepSwapDB.TestMode) then
             RepSwap:MessageUser(string.format("FactionName: %s. FactionID: %s.", factionName, i));
         end
     end
@@ -80,7 +76,7 @@ function RepSwap:GetFactionIndexFromTable(factionName, factionTable)
         RepSwap.FactionTable = RepSwap:CreateFactionTable();
         RepSwap:MessageUser(string.format("You've encountered a new faction - %s", factionName));
     end
-    if (RepSwap.TestMode) then
+    if (RepSwapDB.TestMode) then
         RepSwap:MessageUser(string.format("Faction: %s. FactionIndex: %s.", factionName, factionTable[factionName]));
     end
     return factionTable[factionName];
@@ -95,12 +91,12 @@ function RepSwap:AddSessionReputation(factionName, reputationGain)
     -- Adds all session based reputation gains to a common table to use with LDB
 
     if RepSwap.SessionReputation[factionName] ~= nil then
-        if RepSwap.TestMode then
+        if RepSwapDB.TestMode then
             RepSwap:MessageUser(string.format("The key, %s, exists inside SessionReputation Table.", factionName))
         end
         RepSwap.SessionReputation[factionName] = RepSwap.SessionReputation[factionName] + reputationGain
     else
-        if RepSwap.TestMode then
+        if RepSwapDB.TestMode then
             RepSwap:MessageUser(string.format("The key, %s, does not exist inside SessionReputation Table.", factionName))
         end
         RepSwap.SessionReputation[factionName] = reputationGain
@@ -190,14 +186,14 @@ function RepSwap:EventHandler(self, event, ...)
                 end]]
 
                 if not table.contains(RepSwap.FactionTable, factionName) then
-                  if (RepSwap.TestMode) then
+                  if (RepSwapDB.TestMode) then
                       RepSwap:MessageUser("Recreating FactionTable due to faction not being inside of it");
                   end
                     RepSwap.FactionTable = RepSwap:CreateFactionTable();
                     RepSwap:MessageUser(string.format("You've encountered a new faction - %s", factionName));
                 end
 
-                if (RepSwap.TestMode) then
+                if (RepSwapDB.TestMode) then
                     SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
                 end
 
@@ -206,12 +202,12 @@ function RepSwap:EventHandler(self, event, ...)
                 -- then we can tell it to change the watched faction
 
                 if (factionName == "Guild") then
-                    if (RepSwap.TestMode) then
+                    if (RepSwapDB.TestMode) then
                         RepSwap:MessageUser("FactionName provided was 'Guild'.");
                     end
                     factionIndex = RepSwap:GetFactionIndexFromTable(RepSwap.PlayerGuildName, RepSwap.FactionTable);
                 else
-                    if (RepSwap.TestMode) then
+                    if (RepSwapDB.TestMode) then
                         RepSwap:MessageUser(string.format("FactionName provided was %s.", factionName));
                     end
                     factionIndex = RepSwap:GetFactionIndexFromTable(factionName, RepSwap.FactionTable);
@@ -225,7 +221,7 @@ function RepSwap:EventHandler(self, event, ...)
         RepSwap.IsInGuild = IsInGuild();
         if (RepSwap.IsInGuild) then
             RepSwap.PlayerGuildName = GetGuildInfo("player");
-            if (RepSwap.TestMode) then
+            if (RepSwapDB.TestMode) then
                 RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
             end
         end
@@ -237,11 +233,11 @@ function RepSwap:EventHandler(self, event, ...)
         RepSwap.IsInGuild = IsInGuild();
         if (RepSwap.IsInGuild) then
             RepSwap.PlayerGuildName = GetGuildInfo("player");
-            if (RepSwap.TestMode) then
+            if (RepSwapDB.TestMode) then
                 RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
             end
         else
-            if (RepSwap.TestMode) then
+            if (RepSwapDB.TestMode) then
                 RepSwap:MessageUser(string.format("Resetting Guild Name: %s", RepSwap.PlayerGuildName));
             end
             RepSwap.PlayerGuildName = "";
@@ -250,7 +246,7 @@ function RepSwap:EventHandler(self, event, ...)
         -- Save our saved variables!
     elseif (event == "ADDON_LOADED") then
         local LoadedAddonName = ...;
-        if (RepSwap.TestMode) then
+        if (RepSwapDB.TestMode) then
             RepSwap:MessageUser(string.format("LoadedAddonName is %s", LoadedAddonName));
         end
         if (LoadedAddonName == AddonName) then
@@ -261,11 +257,11 @@ function RepSwap:EventHandler(self, event, ...)
                 RepSwap.Author = "Fluxflashor (Local)";
             end
             RepSwap:MessageUser(string.format("Loaded Version is %s. Author is %s.", RepSwap.Version, RepSwap.Author));
-            if (RepSwap.TestMode) then
+            if (RepSwapDB.TestMode) then
                 RepSwap:MessageUser(string.format("%s is %s.", LoadedAddonName, AddonName));
             end
             if (RepSwapDB.AddOnDisabled) then
-                if (RepSwap.TestMode) then
+                if (RepSwapDB.TestMode) then
                     RepSwap:MessageUser("Unregistering Events.");
                 end
                 if (not RepSwapDB.SuppressWarnings) then
