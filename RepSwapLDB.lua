@@ -44,6 +44,9 @@ RepSwapLDB = DataBroker:NewDataObject("RepSwap", {
         if FactionName then
             local FactionStandingLabel = _G["FACTION_STANDING_LABEL"..FactionStandingId];
             local FactionStandingLabelNext = _G["FACTION_STANDING_LABEL"..FactionStandingId+1];
+            if FactionStandingLabelNext == nil or FactionStandingLabelNext == '' then
+                FactionStandingLabelNext = FactionStandingLabel;
+            end
             local ReputationEarnedForThisStandingId = TotalReputationEarned - ReputationMin;
             local ReputationCapForThisStandingId = ReputationMax - TotalReputationEarned + ReputationEarnedForThisStandingId;
             local ReputationToReachNextStandingId = ReputationCapForThisStandingId - ReputationEarnedForThisStandingId;
