@@ -1,6 +1,6 @@
 ## Interface: 60200
 ## Title: RepSwap
-## Notes: Changes your watched reputation based on the faction you last gained rep with
+## Notes: Changes your watched reputation based on the faction you last gained rep with.
 ## Author: @project-author@
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: RepSwapDB
@@ -9,7 +9,6 @@
 ## X-Category: Quest
 
 lib\LibStub.lua
-lib\tekKonfigAboutPanel.lua
 lib\CallbackHandler-1.0.lua
 lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
@@ -17,3 +16,5 @@ locale/enUS.lua
 
 Core.lua
 RepSwapLDB.lua
+
+RepSwapOptions.lua
