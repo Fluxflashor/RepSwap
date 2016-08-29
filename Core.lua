@@ -9,7 +9,7 @@
 local REPSWAP, RepSwap = ...;
 local EventFrame = CreateFrame("FRAME", "RepSwap_EventFrame");
 
-local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap");
+--local about = LibStub("tekKonfig-AboutPanel").new(nil, "RepSwap");
 local L = RepSwapL;
 local SF = string.format;
 

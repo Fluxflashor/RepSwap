@@ -1,4 +1,8 @@
 RepSwapL = {};
+local REPSWAP, RepSwap = ...;
+
+RepSwapL["TITLE"] = "RepSwap";
+RepSwapL["DESCRIPTION"] = GetAddOnMetadata(REPSWAP, "Notes");
 
 -- Slash Command Usage Info
 RepSwapL["SCMD_INFO_USAGE"] = "Slash Command Usage";
