@@ -87,6 +87,13 @@ end
 
 function RepSwap:GetFactionIndexFromTable(factionName)
     -- Returns the factionIndex of the faction
+
+    -- If the faction table is empty, we need to populate it.
+    if next(RepSwap.FactionTable) == nil then
+        RepSwap:TestModeMessage(SF("Faction Table was empty.. building table.", factionName));
+        RepSwap:CreateFactionTable();
+    end
+
     if not RepSwap:FactionIsInTable(factionName) then
         RepSwap:TestModeMessage(SF("Faction '%s' was not in the faction table.", factionName));
         RepSwap:CreateFactionTable();
