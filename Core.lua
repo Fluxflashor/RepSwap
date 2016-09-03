@@ -63,15 +63,12 @@ function RepSwap:CreateFactionTable()
     local factionTable = { };
     local numFactions = GetNumFactions();
 
-    if (numFactions == 0) then
-        RepSwap.FactionTable = factionTable;
-        return RepSwap.FactionTable;
-    end
-
-    for i=1, numFactions do
-        local factionName = select(1,GetFactionInfo(i));
-        factionTable[factionName] = i;
-        RepSwap:TestModeMessage(SF("[Name] %s [ID] %s", factionName, factionTable[factionName]));
+    if (numFactions ~= 0) then
+        for i=1, numFactions do
+            local factionName = select(1, GetFactionInfo(i));
+            factionTable[factionName] = i;
+            RepSwap:TestModeMessage(SF("[Name] %s [ID] %s", factionName, factionTable[factionName]));
+        end
     end
 
     RepSwap.FactionTable = factionTable;
