@@ -45,16 +45,16 @@ function table.contains(table, element)
 end
 
 function RepSwap:MessageUser(message)
-    DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: %s", message));
+    DEFAULT_CHAT_FRAME:AddMessage(SF("|cfffa8000RepSwap|r: %s", message));
 end
 
 function RepSwap:WarnUser(message)
-    DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap|r: |cffc41f3b%s|r", message));
+    DEFAULT_CHAT_FRAME:AddMessage(SF("|cfffa8000RepSwap|r: |cffc41f3b%s|r", message));
 end
 
 function RepSwap:TestModeMessage(message)
     if RepSwapDB.TestMode then
-        DEFAULT_CHAT_FRAME:AddMessage(string.format("|cfffa8000RepSwap (TestMode)|r: %s", message));
+        DEFAULT_CHAT_FRAME:AddMessage(SF("|cfffa8000RepSwap (TestMode)|r: %s", message));
     end
 end
 
@@ -97,7 +97,7 @@ function RepSwap:GetFactionIndexFromTable(factionName)
         end
     end
 
-    RepSwap:TestModeMessage(string.format("Faction: %s. FactionIndex: %s.", factionName, RepSwap.FactionTable[factionName]));
+    RepSwap:TestModeMessage(SF("Faction: %s. FactionIndex: %s.", factionName, RepSwap.FactionTable[factionName]));
     return RepSwap.FactionTable[factionName];
 end
 
@@ -116,12 +116,12 @@ function RepSwap:AddSessionReputation(factionName, reputationGain)
 
     if RepSwap.SessionReputation[factionName] ~= nil then
         if RepSwapDB.TestMode then
-            RepSwap:MessageUser(string.format("The key, %s, exists inside SessionReputation Table.", factionName))
+            RepSwap:MessageUser(SF("The key, %s, exists inside SessionReputation Table.", factionName))
         end
         RepSwap.SessionReputation[factionName] = RepSwap.SessionReputation[factionName] + reputationGain
     else
         if RepSwapDB.TestMode then
-            RepSwap:MessageUser(string.format("The key, %s, does not exist inside SessionReputation Table.", factionName))
+            RepSwap:MessageUser(SF("The key, %s, does not exist inside SessionReputation Table.", factionName))
         end
         RepSwap.SessionReputation[factionName] = reputationGain
     end
@@ -212,7 +212,7 @@ function RepSwap:EventHandler(self, event, ...)
 
 
                 if (RepSwapDB.TestMode) then
-                    SendChatMessage(string.format("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
+                    SendChatMessage(SF("%s passed for %s - Args: %s",messageType,event,factionName), "OFFICER");
                 end
 
                 -- This is the correct event so we will now check to see if
@@ -237,7 +237,7 @@ function RepSwap:EventHandler(self, event, ...)
         if (RepSwap.IsInGuild) then
             RepSwap.PlayerGuildName = GetGuildInfo("player");
             if (RepSwapDB.TestMode) then
-                RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
+                RepSwap:MessageUser(SF("Player's Guild Name: %s", RepSwap.PlayerGuildName));
             end
         end
         RepSwap.SetupFactionTable = true;
@@ -249,18 +249,18 @@ function RepSwap:EventHandler(self, event, ...)
         if (RepSwap.IsInGuild) then
             RepSwap.PlayerGuildName = GetGuildInfo("player");
             if (RepSwapDB.TestMode) then
-                RepSwap:MessageUser(string.format("Player's Guild Name: %s", RepSwap.PlayerGuildName));
+                RepSwap:MessageUser(SF("Player's Guild Name: %s", RepSwap.PlayerGuildName));
             end
         else
             if (RepSwapDB.TestMode) then
-                RepSwap:MessageUser(string.format("Resetting Guild Name: %s", RepSwap.PlayerGuildName));
+                RepSwap:MessageUser(SF("Resetting Guild Name: %s", RepSwap.PlayerGuildName));
             end
             RepSwap.PlayerGuildName = "";
         end
     elseif (event == "ADDON_LOADED") then
         local LoadedAddonName = ...;
         if (RepSwapDB.TestMode) then
-            RepSwap:MessageUser(string.format("LoadedAddonName is %s", LoadedAddonName));
+            RepSwap:MessageUser(SF("LoadedAddonName is %s", LoadedAddonName));
         end
         if (LoadedAddonName == AddonName) then
             if (RepSwap.Version == "@project-version@") then
@@ -269,9 +269,9 @@ function RepSwap:EventHandler(self, event, ...)
             if (RepSwap.Author == "@project-author@") then
                 RepSwap.Author = "Fluxflashor (Local)";
             end
-            RepSwap:MessageUser(string.format(L["ADDON_LOADED"], RepSwap.Version, RepSwap.Author));
+            RepSwap:MessageUser(SF(L["ADDON_LOADED"], RepSwap.Version, RepSwap.Author));
             if (RepSwapDB.TestMode) then
-                RepSwap:MessageUser(string.format("%s is %s.", LoadedAddonName, AddonName));
+                RepSwap:MessageUser(SF("%s is %s.", LoadedAddonName, AddonName));
             end
             if (RepSwapDB.AddOnDisabled) then
                 if (RepSwapDB.TestMode) then
@@ -296,9 +296,9 @@ function RepSwap:EventHandler(self, event, ...)
 
             if (RepSwapDB.LDBDisplayPercent) then
                 PercentEarnedForThisStandingId = floor(ReputationEarnedForThisStandingId * 100 / ReputationCapForThisStandingId);
-                RepSwapLDB.text = string.format("%s - %s: %s%%", FactionName, FactionStandingLabel, PercentEarnedForThisStandingId);
+                RepSwapLDB.text = SF("%s - %s: %s%%", FactionName, FactionStandingLabel, PercentEarnedForThisStandingId);
             else
-                RepSwapLDB.text = string.format("%s - %s: %s/%s", FactionName, FactionStandingLabel, ReputationEarnedForThisStandingId, ReputationCapForThisStandingId);
+                RepSwapLDB.text = SF("%s - %s: %s/%s", FactionName, FactionStandingLabel, ReputationEarnedForThisStandingId, ReputationCapForThisStandingId);
             end
         end
     end
