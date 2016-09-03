@@ -66,8 +66,10 @@ function RepSwap:CreateFactionTable()
     if (numFactions ~= 0) then
         for i=1, numFactions do
             local factionName = select(1, GetFactionInfo(i));
-            factionTable[factionName] = i;
-            RepSwap:TestModeMessage(SF("[Name] %s [ID] %s", factionName, factionTable[factionName]));
+            if factionName ~= nil then
+                factionTable[factionName] = i;
+                RepSwap:TestModeMessage(SF("[Name] %s [ID] %s", factionName, factionTable[factionName]));
+            end
         end
     end
 
